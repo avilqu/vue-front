@@ -1,0 +1,14 @@
+#__login input,
+#__register input,
+#__reset-password input {
+    border: 1px solid #444;
+}
+
+.__auth-card {
+    margin: 0 auto;
+    width: 450px;
+}
+
+.__invalid {
+    border: 1px solid #71180e !important;
+}
