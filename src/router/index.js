@@ -5,13 +5,25 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () =>
-            import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+            import(/* webpackChunkName: "about" */ '../views/Login.vue')
     },
+    {
+        path: '/auth',
+        props: { auth: true },
+        component: () =>
+            import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    },
+    {
+        path: '/verify/:id/:token',
+        props: { verify: true },
+        component: () =>
+            import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    }
 ];
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes,
+    routes
 });
 
 router.beforeEach((to, from, next) => {

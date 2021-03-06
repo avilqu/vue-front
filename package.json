@@ -51,7 +51,8 @@
     "prettier": {
         "tabWidth": 4,
         "singleQuote": true,
-        "arrowParens": "always"
+        "arrowParens": "always",
+        "trailingComma": "none"
     },
     "babel": {
         "presets": [

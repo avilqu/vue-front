@@ -55,7 +55,7 @@
                                     class="form-control bg-dark text-light mb-2"
                                     placeholder="Email address"
                                     :class="{
-                                        __invalid: !validation.login.email,
+                                        __invalid: !validation.login.email
                                     }"
                                     autofocus
                                     v-model="formData.login.email"
@@ -69,7 +69,7 @@
                                     class="form-control bg-dark text-light"
                                     placeholder="Password"
                                     :class="{
-                                        __invalid: !validation.login.password,
+                                        __invalid: !validation.login.password
                                     }"
                                     v-model="formData.login.password"
                                 />
@@ -107,7 +107,7 @@
                                     class="form-control bg-dark text-light mb-3"
                                     :class="{
                                         __invalid: !validation.passwordReset
-                                            .email,
+                                            .email
                                     }"
                                     placeholder="Email address"
                                     autofocus
@@ -145,7 +145,7 @@
                                 id="userName"
                                 class="form-control bg-dark text-light mb-2"
                                 :class="{
-                                    __invalid: !validation.register.name,
+                                    __invalid: !validation.register.name
                                 }"
                                 placeholder="Name"
                                 autofocus
@@ -159,7 +159,7 @@
                                 id="email"
                                 class="form-control bg-dark text-light mb-2"
                                 :class="{
-                                    __invalid: !validation.register.email,
+                                    __invalid: !validation.register.email
                                 }"
                                 placeholder="Email address"
                                 v-model="formData.register.email"
@@ -172,7 +172,7 @@
                                 id="password"
                                 class="form-control bg-dark text-light mb-2"
                                 :class="{
-                                    __invalid: !validation.register.password,
+                                    __invalid: !validation.register.password
                                 }"
                                 placeholder="Password"
                                 v-model="formData.register.password"
@@ -185,8 +185,7 @@
                                 id="confirmation"
                                 class="form-control bg-dark text-light"
                                 :class="{
-                                    __invalid: !validation.register
-                                        .confirmation,
+                                    __invalid: !validation.register.confirmation
                                 }"
                                 placeholder="Confirm password"
                                 v-model="formData.register.confirmation"
@@ -239,41 +238,41 @@ export default {
             formData: {
                 login: {
                     email: '',
-                    password: '',
+                    password: ''
                 },
                 passwordReset: {
-                    email: '',
+                    email: ''
                 },
                 register: {
                     name: '',
                     email: '',
                     password: '',
-                    confirmation: '',
-                },
+                    confirmation: ''
+                }
             },
             validation: {
                 login: {
                     email: true,
-                    password: true,
+                    password: true
                 },
                 passwordReset: {
-                    email: true,
+                    email: true
                 },
                 register: {
                     name: true,
                     email: true,
                     password: true,
-                    confirmation: true,
-                },
+                    confirmation: true
+                }
             },
-            showResetForm: false,
+            showResetForm: false
         };
     },
 
-    // props: {
-    //     auth: Boolean,
-    //     verify: Boolean
-    // },
+    props: {
+        auth: Boolean,
+        verify: Boolean
+    },
 
     methods: {
         loginValidation() {
@@ -335,7 +334,7 @@ export default {
             if (this.loginValidation()) {
                 this.$store.dispatch('auth/login', {
                     email: this.formData.login.email,
-                    password: this.formData.login.password,
+                    password: this.formData.login.password
                 });
             }
         },
@@ -353,10 +352,10 @@ export default {
         async requestResetToken() {
             if (this.passwordResetValidation()) {
                 await apiClient.requestResetToken({
-                    email: this.formData.passwordReset.email,
+                    email: this.formData.passwordReset.email
                 });
             }
-        },
+        }
     },
 
     async created() {
@@ -370,7 +369,7 @@ export default {
                 this.$route.params.token
             );
         }
-    },
+    }
 };
 </script>
 
