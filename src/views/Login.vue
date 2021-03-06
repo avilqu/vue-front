@@ -236,7 +236,7 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
 export default {
-    setup(props) {
+    setup(props, root) {
         const store = useStore();
         const route = useRoute();
 
@@ -355,11 +355,11 @@ export default {
             }
         };
 
-        if (props.auth) {
+        if (root.attrs.auth) {
             store.dispatch('auth/auth');
         }
 
-        if (props.verify) {
+        if (root.attrs.verify) {
             apiClient.verify(route.params.id, route.params.token);
         }
 
