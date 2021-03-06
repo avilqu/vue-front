@@ -231,145 +231,281 @@
 
 <script>
 import apiClient from '@/services/apiClient.js';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
-    data: function () {
-        return {
-            formData: {
-                login: {
-                    email: '',
-                    password: ''
-                },
-                passwordReset: {
-                    email: ''
-                },
-                register: {
-                    name: '',
-                    email: '',
-                    password: '',
-                    confirmation: ''
-                }
+    setup(props, { root }) {
+        const store = useStore();
+        let formData = ref({
+            login: {
+                email: '',
+                password: ''
             },
-            validation: {
-                login: {
-                    email: true,
-                    password: true
-                },
-                passwordReset: {
-                    email: true
-                },
-                register: {
-                    name: true,
-                    email: true,
-                    password: true,
-                    confirmation: true
-                }
+            passwordReset: {
+                email: ''
             },
-            showResetForm: false
+            register: {
+                name: '',
+                email: '',
+                password: '',
+                confirmation: ''
+            }
+        });
+        let validation = ref({
+            login: {
+                email: true,
+                password: true
+            },
+            passwordReset: {
+                email: true
+            },
+            register: {
+                name: true,
+                email: true,
+                password: true,
+                confirmation: true
+            }
+        });
+        let showResetForm = ref(false);
+
+        const loginValidation = () => {
+            let status = true;
+            if (!formData.value.login.email) {
+                status = false;
+                validation.value.login.email = false;
+            }
+            if (!formData.value.login.password) {
+                status = false;
+                validation.value.login.password = false;
+            }
+            return status;
         };
-    },
 
-    props: {
-        auth: Boolean,
-        verify: Boolean
-    },
-
-    methods: {
-        loginValidation() {
+        const passwordResetValidation = () => {
             let status = true;
-            this.validation.passwordReset.email = true;
-            if (!this.formData.login.email) {
+            validation.value.passwordReset.email = true;
+            if (!formData.value.passwordReset.email) {
                 status = false;
-                this.validation.login.email = false;
-            }
-            if (!this.formData.login.password) {
-                status = false;
-                this.validation.login.password = false;
+                validation.value.passwordReset.email = false;
             }
             return status;
-        },
+        };
 
-        passwordResetValidation() {
+        const registerValidation = () => {
             let status = true;
-            this.validation.passwordReset.email = true;
-            if (!this.formData.passwordReset.email) {
+            validation.value.register.name = true;
+            validation.value.register.email = true;
+            validation.value.register.password = true;
+            validation.value.register.confirmation = true;
+            if (!formData.value.register.name) {
                 status = false;
-                this.validation.passwordReset.email = false;
+                validation.value.register.name = false;
             }
-            return status;
-        },
-
-        registerValidation() {
-            let status = true;
-            this.validation.register.name = true;
-            this.validation.register.email = true;
-            this.validation.register.password = true;
-            this.validation.register.confirmation = true;
-            if (!this.formData.register.name) {
+            if (!formData.value.register.email) {
                 status = false;
-                this.validation.register.name = false;
-            }
-            if (!this.formData.register.email) {
-                status = false;
-                this.validation.register.email = false;
+                validation.value.register.email = false;
             }
             if (
-                this.formData.register.password &&
-                this.formData.register.password.length < 6
+                formData.value.register.password &&
+                formData.value.register.password.length < 6
             ) {
                 status = false;
-                this.validation.register.password = false;
+                validation.value.register.password = false;
             }
             if (
-                this.formData.register.password !==
-                this.formData.register.confirmation
+                formData.value.register.password !==
+                formData.value.register.confirmation
             ) {
                 status = false;
-                this.validation.register.confirmation = false;
+                validation.value.register.confirmation = false;
             }
             return status;
-        },
+        };
 
-        login() {
-            if (this.loginValidation()) {
-                this.$store.dispatch('auth/login', {
-                    email: this.formData.login.email,
-                    password: this.formData.login.password
+        const login = () => {
+            if (loginValidation()) {
+                store.dispatch('auth/login', {
+                    email: formData.value.login.email,
+                    password: formData.value.login.password
                 });
             }
-        },
+        };
 
-        oAuthLogin(strategy) {
+        const oAuthLogin = (strategy) => {
             window.location.href = `/api/login/${strategy}`;
-        },
+        };
 
-        async createUser() {
-            if (this.registerValidation()) {
-                await apiClient.createUser(this.formData.register);
+        const createUser = async () => {
+            if (registerValidation()) {
+                await apiClient.createUser(formData.value.register.value);
             }
-        },
+        };
 
-        async requestResetToken() {
-            if (this.passwordResetValidation()) {
+        const requestResetToken = async () => {
+            if (passwordResetValidation()) {
                 await apiClient.requestResetToken({
-                    email: this.formData.passwordReset.email
+                    email: formData.value.passwordReset.email
                 });
             }
-        }
-    },
+        };
 
-    async created() {
-        if (this.auth) {
-            this.$store.dispatch('auth/auth');
+        if (props.auth) {
+            store.dispatch('auth/auth');
         }
 
-        if (this.verify) {
-            await apiClient.verify(
-                this.$route.params.id,
-                this.$route.params.token
-            );
+        if (props.verify) {
+            apiClient.verify(root.$route.params.id, root.$route.params.token);
         }
+
+        return {
+            formData,
+            validation,
+            showResetForm,
+            login,
+            oAuthLogin,
+            createUser,
+            requestResetToken
+        };
     }
+
+    // data: function () {
+    //     return {
+    //         formData: {
+    //             login: {
+    //                 email: '',
+    //                 password: ''
+    //             },
+    //             passwordReset: {
+    //                 email: ''
+    //             },
+    //             register: {
+    //                 name: '',
+    //                 email: '',
+    //                 password: '',
+    //                 confirmation: ''
+    //             }
+    //         },
+    //         validation: {
+    //             login: {
+    //                 email: true,
+    //                 password: true
+    //             },
+    //             passwordReset: {
+    //                 email: true
+    //             },
+    //             register: {
+    //                 name: true,
+    //                 email: true,
+    //                 password: true,
+    //                 confirmation: true
+    //             }
+    //         },
+    //         showResetForm: false
+    //     };
+    // },
+
+    // props: {
+    //     auth: Boolean,
+    //     verify: Boolean
+    // },
+
+    // methods: {
+    //     loginValidation() {
+    //         let status = true;
+    //         this.validation.passwordReset.email = true;
+    //         if (!this.formData.login.email) {
+    //             status = false;
+    //             this.validation.login.email = false;
+    //         }
+    //         if (!this.formData.login.password) {
+    //             status = false;
+    //             this.validation.login.password = false;
+    //         }
+    //         return status;
+    //     },
+
+    //     passwordResetValidation() {
+    //         let status = true;
+    //         this.validation.passwordReset.email = true;
+    //         if (!this.formData.passwordReset.email) {
+    //             status = false;
+    //             this.validation.passwordReset.email = false;
+    //         }
+    //         return status;
+    //     },
+
+    //     registerValidation() {
+    //         let status = true;
+    //         this.validation.register.name = true;
+    //         this.validation.register.email = true;
+    //         this.validation.register.password = true;
+    //         this.validation.register.confirmation = true;
+    //         if (!this.formData.register.name) {
+    //             status = false;
+    //             this.validation.register.name = false;
+    //         }
+    //         if (!this.formData.register.email) {
+    //             status = false;
+    //             this.validation.register.email = false;
+    //         }
+    //         if (
+    //             this.formData.register.password &&
+    //             this.formData.register.password.length < 6
+    //         ) {
+    //             status = false;
+    //             this.validation.register.password = false;
+    //         }
+    //         if (
+    //             this.formData.register.password !==
+    //             this.formData.register.confirmation
+    //         ) {
+    //             status = false;
+    //             this.validation.register.confirmation = false;
+    //         }
+    //         return status;
+    //     },
+
+    //     login() {
+    //         if (this.loginValidation()) {
+    //             this.$store.dispatch('auth/login', {
+    //                 email: this.formData.login.email,
+    //                 password: this.formData.login.password
+    //             });
+    //         }
+    //     },
+
+    //     oAuthLogin(strategy) {
+    //         window.location.href = `/api/login/${strategy}`;
+    //     },
+
+    //     async createUser() {
+    //         if (this.registerValidation()) {
+    //             await apiClient.createUser(this.formData.register);
+    //         }
+    //     },
+
+    //     async requestResetToken() {
+    //         if (this.passwordResetValidation()) {
+    //             await apiClient.requestResetToken({
+    //                 email: this.formData.passwordReset.email
+    //             });
+    //         }
+    //     }
+    // },
+
+    // async created() {
+    //     if (this.auth) {
+    //         this.$store.dispatch('auth/auth');
+    //     }
+
+    //     if (this.verify) {
+    //         await apiClient.verify(
+    //             this.$route.params.id,
+    //             this.$route.params.token
+    //         );
+    //     }
+    // }
 };
 </script>
 
