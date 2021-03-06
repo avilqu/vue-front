@@ -18,6 +18,11 @@ const routes = [
         props: { verify: true },
         component: () =>
             import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    },
+    {
+        path: '/reset-password/:id/:token',
+        component: () =>
+            import(/* webpackChunkName: "about" */ '../views/PasswordReset.vue')
     }
 ];
 

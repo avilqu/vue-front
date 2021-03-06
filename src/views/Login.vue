@@ -233,10 +233,13 @@
 import apiClient from '@/services/apiClient.js';
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 export default {
-    setup(props, { root }) {
+    setup(props) {
         const store = useStore();
+        const route = useRoute();
+
         let formData = ref({
             login: {
                 email: '',
@@ -252,6 +255,7 @@ export default {
                 confirmation: ''
             }
         });
+
         let validation = ref({
             login: {
                 email: true,
@@ -267,6 +271,7 @@ export default {
                 confirmation: true
             }
         });
+
         let showResetForm = ref(false);
 
         const loginValidation = () => {
@@ -355,7 +360,7 @@ export default {
         }
 
         if (props.verify) {
-            apiClient.verify(root.$route.params.id, root.$route.params.token);
+            apiClient.verify(route.params.id, route.params.token);
         }
 
         return {
