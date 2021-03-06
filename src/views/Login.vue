@@ -343,7 +343,7 @@ export default {
 
         const createUser = async () => {
             if (registerValidation()) {
-                await apiClient.createUser(formData.value.register.value);
+                await apiClient.createUser(formData.value.register);
             }
         };
 
