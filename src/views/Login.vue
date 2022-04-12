@@ -74,7 +74,7 @@
                                     v-model="formData.login.password"
                                 />
                                 <p
-                                    class="mt-2 mb-2 text-muted text-right small"
+                                    class="__link __secondary mt-2 mb-2 text-muted text-right small"
                                     @click="
                                         showResetForm = true;
                                         title = 'Reset your password';
@@ -122,7 +122,7 @@
                                 </button>
                             </form>
                             <p
-                                class="mt-3 mb-3 text-muted"
+                                class="__link mt-3 mb-3 text-muted"
                                 @click="
                                     showResetForm = false;
                                     title = 'Login';
@@ -376,20 +376,7 @@ export default {
 };
 </script>
 
-<style>
-@import '/assets/css/login.css';
-#__login input,
-#__register input,
-#__reset-password input {
-    border: 1px solid #444;
-}
-
-.__auth-card {
-    margin: 0 auto;
-    width: 450px;
-}
-
-.__invalid {
-    border: 1px solid #71180e !important;
-}
+<style scoped>
+@import '../assets/css/login.css';
+@import '../assets/css/main.css';
 </style>
