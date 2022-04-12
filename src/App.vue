@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row" id="__main-row" v-if="auth">
-            <!-- <app-header></app-header> -->
+            <app-header></app-header>
             <!-- <app-menu></app-menu> -->
             <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <app-alerts></app-alerts>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-// import Header from '@/components/Header.vue';
+import Header from '@/components/Header.vue';
 import Alerts from '@/components/Alerts.vue';
 // import Menu from '@/components/Menu.vue';
 
@@ -36,7 +36,7 @@ export default {
     },
 
     components: {
-        // 'app-header': Header,
+        'app-header': Header,
         'app-alerts': Alerts
         // 'app-menu': Menu
     }

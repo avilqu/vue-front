@@ -4,25 +4,21 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/Login.vue')
+        component: () => import('../views/Login.vue')
     },
     {
         path: '/auth',
         props: { auth: true },
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/Login.vue')
+        component: () => import('../views/Login.vue')
     },
     {
         path: '/verify/:id/:token',
         props: { verify: true },
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/Login.vue')
+        component: () => import('../views/Login.vue')
     },
     {
         path: '/reset-password/:id/:token',
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/PasswordReset.vue')
+        component: () => import('../views/PasswordReset.vue')
     }
 ];
 
