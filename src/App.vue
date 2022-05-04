@@ -30,7 +30,7 @@ export default {
     watch: {
         $route() {
             this.$store.commit('alert/reset');
-            this.testLogin();
+            this.isLogin();
         }
     },
 
@@ -40,8 +40,13 @@ export default {
     },
 
     methods: {
-        async testLogin() {
-            if (this.$route.path == '/login') this.login = true;
+        async isLogin() {
+            if (
+                this.$route.path === '/login' ||
+                this.$route.path === '/register' ||
+                this.$route.path === '/auth'
+            )
+                this.login = true;
             else this.login = false;
         }
     }

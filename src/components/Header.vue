@@ -16,7 +16,10 @@
             >
                 {{ auth.name }}
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="dropdownMenuButton"
+            >
                 <router-link
                     tag="a"
                     :to="'/user/' + auth._id"
@@ -28,9 +31,13 @@
             </div>
         </div>
         <div v-else>
-            <router-link to="/login" class="btn btn-primary" type="button"
-                >Login</router-link
-            >
+            <router-link to="/login" class="btn btn-primary" type="button">
+                Login
+            </router-link>
+            &nbsp;
+            <router-link to="/register" class="btn btn-success" type="button">
+                Sign in
+            </router-link>
         </div>
     </nav>
 </template>

@@ -9,12 +9,12 @@
                     <!-- Login tab intro -->
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
+                            class="nav-link"
+                            :class="{ active: register === false }"
                             data-toggle="tab"
                             href="#__login"
                             role="tab"
                             aria-controls="__login"
-                            aria-selected="true"
                             >Login</a
                         >
                     </li>
@@ -23,11 +23,11 @@
                     <li class="nav-item">
                         <a
                             class="nav-link"
+                            :class="{ active: register === true }"
                             data-toggle="tab"
                             href="#__register"
                             role="tab"
                             aria-controls="__register"
-                            aria-selected="false"
                             >Register</a
                         >
                     </li>
@@ -37,7 +37,11 @@
                 <div class="tab-content">
                     <!-- Login tab -->
                     <div
-                        class="tab-pane fade show active"
+                        class="tab-pane fade"
+                        :class="{
+                            active: register === false,
+                            show: register === false
+                        }"
                         id="__login"
                         role="tabpanel"
                     >
@@ -134,7 +138,15 @@
                     </div>
 
                     <!-- Register tab -->
-                    <div class="tab-pane fade" id="__register" role="tabpanel">
+                    <div
+                        class="tab-pane fade"
+                        :class="{
+                            active: register === true,
+                            show: register === true
+                        }"
+                        id="__register"
+                        role="tabpanel"
+                    >
                         <h5 class="card-title mb-3">
                             <strong>Create an account</strong>
                         </h5>
@@ -236,6 +248,12 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
 export default {
+    data: function () {
+        return {
+            register: false
+        };
+    },
+
     setup(props, root) {
         const store = useStore();
         const route = useRoute();
@@ -372,6 +390,17 @@ export default {
             createUser,
             requestResetToken
         };
+    },
+
+    methods: {
+        async isRegister() {
+            if (this.$route.path == '/register') this.register = true;
+            else this.register = false;
+        }
+    },
+
+    async created() {
+        await this.isRegister();
     }
 };
 </script>
