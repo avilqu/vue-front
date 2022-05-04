@@ -378,5 +378,4 @@ export default {
 
 <style scoped>
 @import '../assets/css/login.css';
-@import '../assets/css/main.css';
 </style>
