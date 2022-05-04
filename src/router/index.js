@@ -29,6 +29,11 @@ const routes = [
     {
         path: '/reset-password/:id/:token',
         component: () => import('../views/PasswordReset.vue')
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: () => import('../views/404.vue')
     }
 ];
 
