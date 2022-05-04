@@ -399,8 +399,15 @@ export default {
         }
     },
 
+    computed: {
+        auth() {
+            return this.$store.state.auth.user;
+        }
+    },
+
     async created() {
         await this.isRegister();
+        if (this.auth) this.$router.push('/');
     }
 };
 </script>
