@@ -27,6 +27,11 @@
                 <a class="dropdown-item" @click="logout()"> Logout </a>
             </div>
         </div>
+        <div v-else>
+            <router-link to="/login" class="btn btn-primary" type="button"
+                >Login</router-link
+            >
+        </div>
     </nav>
 </template>
 
